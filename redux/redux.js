@@ -6,22 +6,22 @@ function compose (...funcs) {
 function applyMiddleware (...middlewares) {
   return createStore => (...args) => {
     const store = createStore(...args)
-    let dispatch = () => {}
+    let dispatch = store.dispatch
     const middlewareApi = {
       dispatch,
-      getState: store.getState()
+      getState: store.getState
     }
     const chain = middlewares.map(middleware=>middleware(middlewareApi))
     dispatch = compose(...chain)(store.dispatch)
     return {
       ...store,
-      dispatchs
+      dispatch
     }
   }
 }
 function createStore (reducer, preState, enhancer) {
   if(enhancer && typeof enhancer === 'function') {
-    return enhancer(createStore)(render,preState)
+    return enhancer(createStore)(reducer,preState)
   }
   let currentState = preState
   const listeners = []
@@ -43,7 +43,6 @@ function createStore (reducer, preState, enhancer) {
     dispatch
   }
 }
-
 
 export {
   compose,
