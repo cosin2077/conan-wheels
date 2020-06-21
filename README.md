@@ -11,4 +11,6 @@
 - [ ] webpack
 - [ ] react
 - [ ] vue
+- [ ] next
+- [ ] nuxt
 - [ ] more...
