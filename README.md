@@ -1,8 +1,14 @@
 # conan-wheels, build wheels by yourself
 
 
-- redux
-- redux-thunk
-- react[todo]
-- vue[todo]
-- more...
+- [x] redux
+- [x] redux-thunk
+- [ ] redux-saga
+- [ ] mobx
+- [ ] immer
+- [ ] rollup
+- [ ] parcel
+- [ ] webpack
+- [ ] react
+- [ ] vue
+- [ ] more...
