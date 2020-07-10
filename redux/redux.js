@@ -3,6 +3,26 @@ function compose (...funcs) {
 	if(funcs.length === 1) return funcs[0]
 	return funcs.reduce((x,y)=>(...args) => x(y(...args)))
 }
+
+function combineReducers(reducers) {
+	let reducerKeys = Object.keys(reducers)
+
+	return function combination(state = {}, action) {
+		let hasChanged = false
+		let nextStateMap = {}
+
+		for(let i = 0; i < reducerKeys.length; i++){
+			let key = reducerKeys[i]
+			let reducer = reducers[key]
+			let prevState = state[key]
+			let nextState = reducer(prevState,action)
+			nextStateMap[key] = nextState
+			hasChanged = hasChanged || prevState !== nextState // 一次不同则全不同
+		}
+		return hasChanged ? nextStateMap : state 
+	}
+}
+
 function applyMiddleware (...middlewares) {
   return createStore => (...args) => {
     const store = createStore(...args)
@@ -47,5 +67,6 @@ function createStore (reducer, preState, enhancer) {
 export {
   compose,
   createStore,
-  applyMiddleware
+  applyMiddleware,
+  combineReducers
 }
