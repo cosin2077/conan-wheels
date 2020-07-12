@@ -4,7 +4,7 @@ function runCo(gen) {
   var doneFn
 
   function next(data, err) {
-    console.log(`err:${err}`)
+    err && console.log(`err:${err}`)
     if (err) {
       try{
         g.throw(err)
@@ -17,22 +17,24 @@ function runCo(gen) {
       value,
       done
     } = g.next(data)
-    console.log(`getting:`, value)
+    console.log(`data:`, data,' value:',value,' done:',done)
     if (done) {
       if(doneFn) return doneFn(null,value)
+      return value
     }
-    if (value.then) 
+    if (value && typeof value.then === 'function') 
       value.then(next).catch(err => next(null, err))
-    if (typeof value === 'function')
-      next(value())
-    if (isGeneratorFunction(value))
+    else if (isGeneratorFunction(value)){
       next(runCo(value))
+    } 
+    else if (typeof value === 'function')
+      next(value())
     else {
       next(value)
     }
   }
   next()
-  return function(doneFn){
+  return function(fn){
     doneFn = fn
   }
 }
@@ -46,6 +48,6 @@ function isGenerator(obj) {
 }
 
 function isGeneratorFunction(obj) {
-  return obj && obj.constructor && Generator == 'GeneratorFunction'
+  return obj && obj.constructor && obj.constructor.name == 'GeneratorFunction'
 }
 module.exports = runCo
