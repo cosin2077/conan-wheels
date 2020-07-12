@@ -1,4 +1,4 @@
-# conan-wheels, build wheels by yourself
+# Build wheels by yourself
 
 
 - [x] redux
