@@ -33,6 +33,8 @@ function runCo(gen){
     if(done) return value
     if(value.then){
       value.then(data=>next(data))
+    }else if(typeof value === 'function'){
+      next(value())
     } else {
       next(value)
     }
