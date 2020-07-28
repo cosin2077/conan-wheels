@@ -38,7 +38,13 @@ function runCo(gen) {
     doneFn = fn
   }
 }
-
+runCo.wrap = function (fn) {
+  createPromise.__generatorFunction__ = fn;
+  return createPromise;
+  function createPromise() {
+    return runCo.call(this, fn.apply(this, arguments));
+  }
+};
 function isPromise(obj) {
   return obj && typeof obj.then == 'function'
 }
