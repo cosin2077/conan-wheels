@@ -13,8 +13,20 @@ var readFile = function (fileName) {
 }
 var generator = function * () {
 	var f1 = yield readFile('/etc/networks')
+	// it('handle f1 promise',runCo.wrap(function *() {
+	// 	f1 = yield readFile('/etc/networks')
+	// 	return expect(f1.then).toBeDefined()
+	// }))
 	var f2 = yield readFile('/etc/shells')
-  var f3 = yield '6666'
+	// it('handle f2 promise',runCo.wrap(function *() {
+	// 	f2 = yield readFile('/etc/shells')
+	// 	return expect(f2.then).toBeDefined()
+	// }))
+	var f3 = yield '6666'
+	// it('handle f3 primitive',runCo.wrap(function *() {
+	// 	f3 = yield '6666'
+	// 	return expect(f3).toBe('6666')
+	// }))
   // var fun2 = yield new Promise((resolve,reject)=>reject(111111))
   var err = yield new Error('error').message
 	var fun1 = yield () => 9527
