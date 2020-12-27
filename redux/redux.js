@@ -31,18 +31,26 @@ function applyMiddleware (...middlewares) {
       dispatch,
       getState: store.getState
     }
+    // 修改了dispatch
     const chain = middlewares.map(middleware=>middleware(middlewareApi))
     dispatch = compose(...chain)(store.dispatch)
+
     return {
       ...store,
       dispatch
     }
   }
 }
+
 function createStore (reducer, preState, enhancer) {
+  if(typeof preState === 'function' && !enhancer){
+    enhancer = preState
+    preState = undefined // 这里的undefined可以是null吗？
+  }
   if(enhancer && typeof enhancer === 'function') {
     return enhancer(createStore)(reducer,preState)
   }
+  // core start
   let currentState = preState
   const listeners = []
   const getState = () => currentState
@@ -57,10 +65,18 @@ function createStore (reducer, preState, enhancer) {
     listeners.forEach(listener=>listener())
     return action
   }
+  // core end
+  const replaceReducer = (nextReducer) => {
+    if(nextReducer)
+      reducer = nextReducer
+  }
+  const getReducer = () => reducer
   return {
     subscribe,
     getState,
-    dispatch
+    dispatch,
+    replaceReducer,
+    getReducer
   }
 }
 
