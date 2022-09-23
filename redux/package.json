@@ -1,0 +1,17 @@
+{
+  "dependencies": {
+    "regenerator-runtime": "^0.13.5"
+  },
+  "name": "redux",
+  "version": "1.0.0",
+  "main": "redux.js",
+  "devDependencies": {},
+  "scripts": {
+    "dev:redux": "parcel redux-test.html",
+    "dev:saga": "parcel redux-saga-test.html"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "description": ""
+}
